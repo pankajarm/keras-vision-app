@@ -1,0 +1,1 @@
+[('soap_dispenser', 0.5868639), ('water_bottle', 0.19038332), ('water_jug', 0.09729793)]
