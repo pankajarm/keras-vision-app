@@ -2,19 +2,16 @@ from keras.applications.imagenet_utils import preprocess_input, decode_predictio
 from keras.models import load_model
 from keras.preprocessing import image
 from keras.applications.resnet50 import ResNet50
-import uvicorn, aiohttp, asyncio
-import base64
-import sys
-import numpy as np
 from starlette.applications import Starlette
 from starlette.responses import HTMLResponse
 from starlette.staticfiles import StaticFiles
 from starlette.middleware.cors import CORSMiddleware
 from pathlib import Path
+import uvicorn, aiohttp, asyncio
+import base64, sys, numpy as np
 
 path = Path(__file__).parent
-
-model_file_url = 'https://github.com/pankymathur/Fine-Grained-Clothing-Classification/blob/master/data/cloth_categories/models/stage-1_sz-150.pth?raw=true'
+model_file_url = 'YOUR MODEL.h5 DIRECT / RAW DOWNLOAD URL HERE!'
 model_file_name = 'model'
 
 app = Starlette()
@@ -33,13 +30,11 @@ async def download_file(url, dest):
             with open(dest, 'wb') as f: f.write(data)
 
 async def setup_model():
-    await download_file(model_file_url, MODEL_PATH)
-    # Load your Custom trained model
-    # model = load_model(MODEL_PATH)
+    #UNCOMMENT HERE FOR CUSTOM TRAINED MODEL
+    # await download_file(model_file_url, MODEL_PATH)
+    # model = load_model(MODEL_PATH) # Load your Custom trained model
     # model._make_predict_function()
-    # print('Your Custom Trained Model loaded...')
-    model = ResNet50(weights='imagenet')
-    print('Default Imagenet Model loaded..')
+    model = ResNet50(weights='imagenet') # COMMENT, IF you have Custom trained model
     return model
 
 loop = asyncio.get_event_loop()
@@ -56,16 +51,10 @@ async def upload(request):
     return model_predict(IMG_FILE_SRC, model)
 
 def model_predict(img_path, model):
-    img = image.load_img(img_path, target_size=(224, 224))
-    x = image.img_to_array(img)
-    x = preprocess_input(np.expand_dims(x, axis=0))
-    preds = model.predict(x)
-    # Get Top-3 Accuracy
-    predictions = decode_predictions(preds, top=3)[0]
-    result = []
-    for p in predictions:
-        _,label,accuracy = p
-        result.append((label,accuracy))
+    result = []; img = image.load_img(img_path, target_size=(224, 224))
+    x = preprocess_input(np.expand_dims(image.img_to_array(img), axis=0))
+    predictions = decode_predictions(model.predict(x), top=3)[0] # Get Top-3 Accuracy
+    for p in predictions: _,label,accuracy = p; result.append((label,accuracy))
     with open(PREDICTION_FILE_SRC, 'w') as f: f.write(str(result))
     result_html = path/'static'/'result.html'
     return HTMLResponse(result_html.open().read())
