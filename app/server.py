@@ -37,6 +37,7 @@ async def setup_model():
     model = ResNet50(weights='imagenet') # COMMENT, IF you have Custom trained model
     return model
 
+# Asynchronous Steps
 loop = asyncio.get_event_loop()
 tasks = [asyncio.ensure_future(setup_model())]
 model = loop.run_until_complete(asyncio.gather(*tasks))[0]
@@ -65,4 +66,4 @@ def form(request):
     return HTMLResponse(index_html.open().read())
 
 if __name__ == "__main__":
-    if "serve" in sys.argv: uvicorn.run(app, host="0.0.0.0", port=5042)
+    if "serve" in sys.argv: uvicorn.run(app, host="0.0.0.0", port=8080)
