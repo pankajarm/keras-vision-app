@@ -56,9 +56,10 @@ def model_predict(img_path, model):
     x = preprocess_input(np.expand_dims(image.img_to_array(img), axis=0))
     predictions = decode_predictions(model.predict(x), top=3)[0] # Get Top-3 Accuracy
     for p in predictions: _,label,accuracy = p; result.append((label,accuracy))
-    with open(PREDICTION_FILE_SRC, 'w') as f: f.write(str(result))
-    result_html = path/'static'/'result.html'
-    return HTMLResponse(result_html.open().read())
+    result_html1 = path/'static'/'result1.html'
+    result_html2 = path/'static'/'result2.html'
+    result_html = str(result_html1.open().read() +str(result) + result_html2.open().read())
+    return HTMLResponse(result_html)
 
 @app.route("/")
 def form(request):
