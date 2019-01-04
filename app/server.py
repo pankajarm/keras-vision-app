@@ -19,7 +19,7 @@ app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_headers=['X-Reques
 app.mount('/static', StaticFiles(directory='app/static'))
 
 MODEL_PATH = path/'models'/f'{model_file_name}.h5'
-IMG_FILE_SRC = '/tmp'/'static'/'saved_image.png'
+IMG_FILE_SRC = '/tmp/static/saved_image.png'
 PREDICTION_FILE_SRC = path/'static'/'predictions.txt'
 
 async def download_file(url, dest):
