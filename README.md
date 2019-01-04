@@ -6,6 +6,7 @@ Everything packaged in docker with requirement.txt, so you can push it to any do
 
 Few dockers hosted services where this starter pack should work =>
 
+* https://render.com
 * https://zeit.co/now
 * https://azure.microsoft.com/en-us/services/app-service/containers/
 * https://getcarina.com/
