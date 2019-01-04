@@ -1,26 +1,16 @@
-var FILE_CHANGE_FLAG = false;
-
 var el = x => document.getElementById(x);
-
-var submit_btn = document.getElementById('submit_btn').addEventListener('mouseover', submit_btn_mouseover);
-
-function submit_btn_mouseover(e) {
-    if (!FILE_CHANGE_FLAG) {
-        el('submit_btn').disabled = true;
-    }
-}
-
 
 var upload_img = document.getElementById('inp_file').addEventListener('change', fileChange, false);
 
 function fileChange(e) {
-    FILE_CHANGE_FLAG = true;
-    document.getElementById('inp_img').value = '';
 
     var file = e.target.files[0];
 
     if (file.type == "image/jpeg" || file.type == "image/png" || file.type == "image/jp2") {
 
+        // Activate Submit Button
+        el('submit_btn').type = "submit";
+        document.getElementById('inp_img').value = '';
         var reader = new FileReader();  
         reader.onload = function(readerEvent) {
 
@@ -133,30 +123,3 @@ function dataURLtoBlob(dataURL) {
         return new Blob([new Uint8Array(array)], {type: 'image/png'});
     }
   }
-  
-//   function stringToBytesFaster ( str ) {
-//       var ch, st, re = [], j=0;
-//       for (var i = 0; i < str.length; i++ ) { 
-//           ch = str.charCodeAt(i);
-//           if(ch < 127)
-//           {
-//               re[j++] = ch & 0xFF;
-//           }
-//           else
-//           {
-//               st = [];    // clear stack
-//               do {
-//                   st.push( ch & 0xFF );  // push byte to stack
-//                   ch = ch >> 8;          // shift value down by 1 byte
-//               }
-//               while ( ch );
-//               // add stack contents to result
-//               // done because chars have "wrong" endianness
-//               st = st.reverse();
-//               for(var k=0;k<st.length; ++k)
-//                   re[j++] = st[k];
-//           }
-//       }   
-//       // return an array of bytes
-//       return re; 
-//   }
