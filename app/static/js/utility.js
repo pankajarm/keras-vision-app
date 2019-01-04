@@ -6,7 +6,7 @@ var submit_btn = document.getElementById('submit_btn').addEventListener('mouseov
 
 function submit_btn_mouseover(e) {
     if (!FILE_CHANGE_FLAG) {
-        alert('Please choose image file before Submission!');
+        el('submit_btn').disabled = true;
     }
 }
 
