@@ -1,10 +1,10 @@
 # keras-vision-app
 
-Production ready starter pack for creating fast responsive Web App for Keras or Tensorflow2 Image models using Starlette.io framework with Uvicorn ASGI server.
+Deployment ready starter pack for creating fast responsive Web App for Keras or Tensorflow2 Vision models using Starlette.io framework with Uvicorn ASGI server.
 
 Everything packaged in docker with requirement.txt, so you can push it to any docker hosted cloud service. Enjoy :)
 
-You can test your changes locally by installing Docker and using the following command:
+Also, You can test your changes locally by installing Docker and using the following command:
 
 docker build -t keras-vision-app . && docker run --rm -it -p 8080:8080 keras-vision-app
 
