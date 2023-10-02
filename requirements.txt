@@ -1,5 +1,5 @@
 tensorflow>=2.4.0
-gevent==20.6.2
+gevent==23.9.0
 h5py==2.10.0
 aiofiles==0.5.0
 aiohttp==3.8.5
