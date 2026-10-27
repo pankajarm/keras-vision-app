@@ -3,6 +3,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.resnet50 import ResNet50
 from starlette.applications import Starlette
+from starlette.routing import Route
 from starlette.responses import HTMLResponse
 from starlette.staticfiles import StaticFiles
 from starlette.middleware.cors import CORSMiddleware
@@ -42,7 +43,6 @@ tasks = [asyncio.ensure_future(setup_model())]
 model = loop.run_until_complete(asyncio.gather(*tasks))[0]
 loop.close()
 
-@app.route("/upload", methods=["POST"])
 async def upload(request):
     data = await request.form()
     img_bytes = await (data["file"].read())
@@ -59,10 +59,12 @@ def model_predict(img_path, model):
     result_html = str(result_html1.open().read() +str(result) + result_html2.open().read())
     return HTMLResponse(result_html)
 
-@app.route("/")
 def form(request):
     index_html = path/'static'/'index.html'
     return HTMLResponse(index_html.open().read())
+
+app.router.routes.append(Route("/upload", upload, methods=["POST"]))
+app.router.routes.append(Route("/", form))
 
 if __name__ == "__main__":
     if "serve" in sys.argv: uvicorn.run(app, host="0.0.0.0", port=8080)
